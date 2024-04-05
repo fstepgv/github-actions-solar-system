@@ -99,7 +99,8 @@ jobs:
     name: Dev Deploy
     runs-on: ubuntu-latest
     needs: docker
-    environment: development
+    environment:
+      name: development
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -110,11 +111,11 @@ jobs:
           version: 'v1.26.0' # default is latest stable
         id: install
 
-      - name: install Kubectl 
+      - name: Get secret
         uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+          kubeconfig: '${{ secrets.KUBECONFIG }}'
 
       - name: Test run
         run: kubectl version --short -o yaml
